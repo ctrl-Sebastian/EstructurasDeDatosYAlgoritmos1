@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/sebas/OneDrive/Escritorio/intec/EstructurasDeDatosYAlgoritmos1/ProgramacionATS",
-      "program": "c:/Users/sebas/OneDrive/Escritorio/intec/EstructurasDeDatosYAlgoritmos1/ProgramacionATS/build/Debug/outDebug",
+      "cwd": "c:/Users/sebas/OneDrive/Escritorio/intec/EstructurasDeDatosYAlgoritmos1/AlgunosEjercicios/LaPiramideDeBolas",
+      "program": "c:/Users/sebas/OneDrive/Escritorio/intec/EstructurasDeDatosYAlgoritmos1/AlgunosEjercicios/LaPiramideDeBolas/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

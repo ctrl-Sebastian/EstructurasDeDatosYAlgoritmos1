@@ -2,26 +2,24 @@
 
 using namespace std;
 
-int bolas = 10000;
-int contador = 0;
-
 void CalcularPiramide(int bolas) {
-    int total = 0;
+    int bolasUsadas = 0;
     int capas = 0;
 
-    while(total <= bolas){
+    while(bolasUsadas <= bolas){
         capas++;
-        total += (capas*capas);
+        bolasUsadas += (capas*capas);
     }
     capas--;
-    total -= (capas*capas);
+    bolasUsadas -= (capas*capas);
 
-    int sobrantes = bolas - total;
+    int sobrantes = bolas - bolasUsadas;
 
     cout << "Capas: " << capas << " " << "Sobrantes: " << sobrantes << endl;
 }
 
 int main(){
+    int bolas = 10000;
     CalcularPiramide(bolas);
     return 0;
 }

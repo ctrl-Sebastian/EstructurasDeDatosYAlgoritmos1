@@ -121,6 +121,7 @@ int main() {
     int j = 0; // variable contador que inicia en 0 e incrementara en 1 cada bucle del juego
     
     bool entradaValida;
+    bool haPerdido = true;
 
     // for loop de 10 a 0 para los ciclos del juego y puntuar al jugador.
     for (int i = 10; i > 0; i--)
@@ -156,14 +157,17 @@ int main() {
         // Si la respuesta es  CCCC, el jugador ganó y se le muestra su puntaje
         if (MasterMind(input, clave) == "CCCC") {
             cout << "Felicidades! ha ganado con un puntaje de: " << i << " puntos" << endl;
+            haPerdido = false;
             break;
         }
 
     }
 
-    // Si llegase a terminarse el loop y el jugador no ganó, se le muestra la clave y que perdió.
-    cout << "--------------" << endl;
-    cout << "Ha perdido, la clave era: " << clave << endl;
+    if(haPerdido== true){
+        // Si llegase a terminarse el loop y el jugador no ganó, se le muestra la clave y que perdió.
+        cout << "--------------" << endl;
+        cout << "Ha perdido, la clave era: " << clave << endl;
+    }
 
     return 0;
 }

@@ -36,25 +36,41 @@ string MasterMind(string input, string clave)
 int main() {
     string clave = "5612";
     string input;
-    string inputs[10];
+    string inputsPasados[10];
+    string respuestasPasadas[10];
+    int j=0;
 
-    int t = 10, i = 0;
-
-    while(t--)
+    for (int i = 10; i > 0; i--)
     {
-        cout << t << ". "; cin >> input;
-        inputs[i] = input;
+        if(i == 10)
+        {
+            j++;
+            cout << endl;
+            cout << "--------------" << endl;
+            cout <<i<<".     |"; cin>> input;
+
+            inputsPasados[j] = input;
+            respuestasPasadas[j] = MasterMind(input, clave);
+
+            if(MasterMind(input, clave) == "CCCC"){
+                cout << "Felicidades! ha ganado con un puntaje de: " << i << " puntos" << endl;
+                break;
+            }
+        } else {
+            j++;
+            cout << "--------------" << endl;
+            cout <<i<<". " << respuestasPasadas[j-1] << " | "; cin>> input;
+
+            inputsPasados[j] = input;
+            respuestasPasadas[j] = MasterMind(input, clave);
+            if(MasterMind(input, clave) == "CCCC"){
+                cout << "Felicidades! ha ganado con un puntaje de: " << i << " puntos" << endl;
+                break;
+            }
+        }
+        
     }
     
-    do
-    {
-        cout << "digite: ";
-        cin >> input;
-
-
-        cout << MasterMind(input, clave) << endl;
-    } while (MasterMind(input, clave) != "CCCC");
     
-
     return 0;
 }

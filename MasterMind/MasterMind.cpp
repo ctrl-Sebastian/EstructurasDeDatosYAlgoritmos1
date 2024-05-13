@@ -178,6 +178,8 @@ int main() {
         if (respuestasPasadas[j] == "CCCC") {
             cout << "Felicidades! ha ganado con un puntaje de: " << i << " puntos" << endl;
             haPerdido = false;
+            
+            // Espera que el usuario presione enter para salir del programa
             system("pause");
             break;
         }
@@ -188,7 +190,9 @@ int main() {
         // Si llegase a terminarse el loop y el jugador no ganó, se le muestra la clave y que perdió.
         cout << "--------------" << endl;
         cout << "Ha perdido, la clave era: " << clave << endl;
-        system("pause");
+
+        // Espera que el usuario presione enter para salir del programa
+        system("pause"); 
     }
 
     return 0;

@@ -18,7 +18,7 @@ void MostrarInstrucciones() {
 }
 
 // funcion MasterMind que retorna una string respuesta en funcion del input y la clave
-string MasterMind(int input, int clave)
+string MasterMind(int input, int* claveArr)
 {
     
     int input4 = input %10;
@@ -30,16 +30,6 @@ string MasterMind(int input, int clave)
     int input1 = input %10;
 
     int inputArr[4] = {input1, input2, input3, input4};
-
-    int clave4 = clave %10;
-    clave /= 10;
-    int clave3 = clave %10;
-    clave /= 10;
-    int clave2 = clave %10;
-    clave /= 10;
-    int clave1 = clave %10;
-
-    int claveArr[4] = {clave1, clave2, clave3, clave4};
 
     // declaramos la variable result para irle agregando las letras de la respuesta
     string result = "";
@@ -63,9 +53,10 @@ string MasterMind(int input, int clave)
     return result;
 }
 
-int GeneradorClave()
+// Funcion generadora de clave que devuelve el pointer que guarda la posicion del arreglo clave[4]
+int* GeneradorClave()
 {
-    int clave[4];
+    static int clave[4];
     //creamos otro array de 6 elementos booleanos, incialmente todos son false
     bool DigitosUsados[6] = { false };
 
@@ -88,23 +79,9 @@ int GeneradorClave()
         // con el numero aleatorio generado, de esta forma los digitos no se repiten
         DigitosUsados[num - 1] = true;
     }
-
-    // algoritmo que adjunta los elmentos del array clave en un solo int
-    int result = 0;
-    for (int i = 0; i < 4; i++) {
-        result = result * 10 + clave[i];
-    /*  E.j
-        result = 0;
-        clave[] = {1,2,3,4};
-        
-        result = 0      * 10 + 1    = 1
-        result = 1      * 10 + 2    = 12
-        result = 12      * 10 + 3    = 120 + 3 = 123
-        result = 123      * 10 + 4    = 1230 + 4 = 1234
-    */
-    }
-
-    return result;
+    
+    // devuolvemos el pointer que guarda la posicion del arreglo clave[4]
+    return clave;
 }
 
 // Valida que el usuario no haga una entrada incorrecta
@@ -137,26 +114,27 @@ bool ValidarEntrada(const string& input)
 }
 
 int main() {
-    int clave = GeneradorClave(); // la clave es igual al string que retorna la funcion GeneradorClave()
+    int intentos = 10;
+    int* clave = GeneradorClave(); // la clave es igual al pointer qque retorna la funcion GeneradorClave() al array clave
     int input;
     string respuestasPasadas[10];
-    int j = 0; // variable contador que inicia en 0 e incrementara en 1 cada bucle del juego
+    //int j = 0; // variable contador que inicia en 0 e incrementara en 1 cada bucle del juego
     
     bool haPerdido = true;
 
     MostrarInstrucciones();
 
     // for loop de 10 a 0 para los ciclos del juego y puntuar al jugador.
-    for (int i = 10; i > 0; i--)
+    for (int i = intentos; i > 0; i--)
     {
-        j++;
+        //j++;
         cout << endl;
         cout << "--------------" << endl;
 
         do{
 
             // si es la primera jugada no imprimir la respuesta pasada y pedir la entrada del jugador
-            if(i == 10) {
+            if(i == intentos) {
                 cout << i << ".     |"; cin >> input;
             }
             else {
@@ -164,7 +142,7 @@ int main() {
                 // imprime i. accede al array de respuestasPasadas y busca el valor que se entro en la iteracion pasada
                 // luego permite la entrada al usuario
 
-                cout << i << ". " << respuestasPasadas[j - 1] << " | "; cin >> input;
+                cout << i << ". " << respuestasPasadas[intentos-i - 1] << " | "; cin >> input;
             }
 
         // El programa repetira este bucle hasta que la entrada del usuario sea correcta. Se hara por lo menos una validacion, la cual ocurre al final del bucle.
@@ -172,10 +150,10 @@ int main() {
 
 
         // Agregamos la respuesta generada al array de respuestasPasadas
-        respuestasPasadas[j] = MasterMind(input, clave);
+        respuestasPasadas[intentos-i] = MasterMind(input, clave);
 
         // Si la respuesta es  CCCC, el jugador ganó y se le muestra su puntaje
-        if (respuestasPasadas[j] == "CCCC") {
+        if (respuestasPasadas[intentos-i] == "CCCC") {
             cout << "Felicidades! ha ganado con un puntaje de: " << i << " puntos" << endl;
             haPerdido = false;
             

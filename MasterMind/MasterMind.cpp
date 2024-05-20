@@ -50,48 +50,10 @@ void MostrarInstrucciones() {
 }
 
 // funcion MasterMind que retorna una string respuesta en funcion del input y la clave
-<<<<<<< HEAD
-=======
-string MasterMind(int input, int* claveArr)
+
+int GeneradorClave()
 {
-    
-    int input4 = input %10;
-    input /= 10;
-    int input3 = input %10;
-    input /= 10;
-    int input2 = input %10;
-    input /= 10;
-    int input1 = input %10;
-
-    int inputArr[4] = {input1, input2, input3, input4};
-
-    // declaramos la variable result para irle agregando las letras de la respuesta
-    string result = "";
-
-    // loop de 4 iteraciones para iterar por cada numero de la entrada del usuario
-    for (int i = 0; i < 4; i++)
-    {
-       if (inputArr[i] == claveArr[i]) {
-            result += "C";
-        }
-        else if (inputArr[i] == claveArr[0] || inputArr[i] == claveArr[1] || inputArr[i] == claveArr[2] || inputArr[i] == claveArr[3]) {
-            result += "F";
-        }
-        else {
-            result += "X";
-        }
-
-    }
-
-    // Luego de comparar todas las letras, devuelve el string result
-    return result;
-}
->>>>>>> 5cb9da56c3549d2636525ae08dbee217c80d2e73
-
-// Funcion generadora de clave que devuelve el pointer que guarda la posicion del arreglo clave[4]
-int* GeneradorClave()
-{
-    static int clave[4];
+    int clave[4];
     //creamos otro array de 6 elementos booleanos, incialmente todos son false
     bool DigitosUsados[6] = { false };
 
@@ -114,9 +76,23 @@ int* GeneradorClave()
         // con el numero aleatorio generado, de esta forma los digitos no se repiten
         DigitosUsados[num - 1] = true;
     }
-    
-    // devuolvemos el pointer que guarda la posicion del arreglo clave[4]
-    return clave;
+
+    // algoritmo que adjunta los elmentos del array clave en un solo int
+    int result = 0;
+    for (int i = 0; i < 4; i++) {
+        result = result * 10 + clave[i];
+    /*  E.j
+        result = 0;
+        clave[] = {1,2,3,4};
+        
+        result = 0      * 10 + 1    = 1
+        result = 1      * 10 + 2    = 12
+        result = 12      * 10 + 3    = 120 + 3 = 123
+        result = 123      * 10 + 4    = 1230 + 4 = 1234
+    */
+    }
+
+    return result;
 }
 
 bool tieneNumerosDuplicados(const string& str) {
@@ -210,27 +186,26 @@ string MasterMind(int input, int clave)
 }
 
 int main() {
-    int intentos = 10;
-    int* clave = GeneradorClave(); // la clave es igual al pointer qque retorna la funcion GeneradorClave() al array clave
+    int clave = GeneradorClave(); // la clave es igual al string que retorna la funcion GeneradorClave()
     int input;
     string respuestasPasadas[10];
-    //int j = 0; // variable contador que inicia en 0 e incrementara en 1 cada bucle del juego
+    int j = 0; // variable contador que inicia en 0 e incrementara en 1 cada bucle del juego
     
     bool haPerdido = true;
 
     MostrarInstrucciones();
 
     // for loop de 10 a 0 para los ciclos del juego y puntuar al jugador.
-    for (int i = intentos; i > 0; i--)
+    for (int i = 10; i > 0; i--)
     {
-        //j++;
+        j++;
         cout << endl;
         cout << "--------------" << endl;
 
         do{
 
             // si es la primera jugada no imprimir la respuesta pasada y pedir la entrada del jugador
-            if(i == intentos) {
+            if(i == 10) {
                 cout << i << ".     |"; cin >> input;
             }
             else {
@@ -238,7 +213,7 @@ int main() {
                 // imprime i. accede al array de respuestasPasadas y busca el valor que se entro en la iteracion pasada
                 // luego permite la entrada al usuario
 
-                cout << i << ". " << respuestasPasadas[intentos-i - 1] << " | "; cin >> input;
+                cout << i << ". " << respuestasPasadas[j - 1] << " | "; cin >> input;
             }
 
         // El programa repetira este bucle hasta que la entrada del usuario sea correcta. Se hara por lo menos una validacion, la cual ocurre al final del bucle.
@@ -246,10 +221,10 @@ int main() {
 
 
         // Agregamos la respuesta generada al array de respuestasPasadas
-        respuestasPasadas[intentos-i] = MasterMind(input, clave);
+        respuestasPasadas[j] = MasterMind(input, clave);
 
         // Si la respuesta es  CCCC, el jugador ganó y se le muestra su puntaje
-        if (respuestasPasadas[intentos-i] == "CCCC") {
+        if (respuestasPasadas[j] == "CCCC") {
             cout << "Felicidades! ha ganado con un puntaje de: " << i << " puntos" << endl;
             haPerdido = false;
             

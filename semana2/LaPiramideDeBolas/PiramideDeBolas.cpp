@@ -9,8 +9,7 @@ void CalcularPiramide(int bolas) {
     int capas = 0;
 
     while(bolasUsadas < bolas){
-        if((bolasUsadas + (capas*capas)) > bolas)
-        {
+        if((bolasUsadas + (capas*capas)) > bolas){
             break;
         } else{
             capas++;

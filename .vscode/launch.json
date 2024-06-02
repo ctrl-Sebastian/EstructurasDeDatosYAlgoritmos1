@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/sebas/Desktop/intec/EstructurasDeDatosYAlgoritmos1/Stacks",
-      "program": "c:/Users/sebas/Desktop/intec/EstructurasDeDatosYAlgoritmos1/Stacks/build/Debug/outDebug",
+      "cwd": "c:/Users/sebas/OneDrive/Escritorio/intec/EstructurasDeDatosYAlgoritmos1/semana6/Queue",
+      "program": "c:/Users/sebas/OneDrive/Escritorio/intec/EstructurasDeDatosYAlgoritmos1/semana6/Queue/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

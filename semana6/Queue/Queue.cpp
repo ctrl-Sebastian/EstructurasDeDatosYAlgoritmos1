@@ -1,123 +1,145 @@
-#include<iostream>
-#include<stdlib.h>
+#include <iostream>
+#include <limits>
+#include <locale.h>
+#include <stdlib.h>
 using namespace std;
 
-struct Nodo{
-    int dato;
-    Nodo *siguiente;
+struct Nodo {
+  int dato;
+  Nodo *siguiente;
 };
 
-bool ColaVacia(Nodo *frente)
-{
-    return (frente == NULL) ? true : false;
+void MostrarCola(Nodo *frente) {
+  if (frente == NULL) {
+    cout << "La cola está vacía" << endl;
+  } else {
+    while (frente != NULL) {
+      cout << "[" << frente->dato << "]->";
+      frente = frente->siguiente;
+    }
+  }
+  cout << "\n";
+  system("pause");
 }
 
-void Enqueue(Nodo *&frente, Nodo *&fin, int n)
-{
-    Nodo *nuevoNodo = new Nodo();
-    nuevoNodo -> dato = n;
-    nuevoNodo -> siguiente = NULL;
+bool ColaVacia(Nodo *frente) { return (frente == NULL) ? true : false; }
 
-    if(ColaVacia(frente))
-    {
-        frente = nuevoNodo;
-    }
-    else
-    {
-        fin -> siguiente = nuevoNodo;
-    }
+void Enqueue(Nodo *&frente, Nodo *&fin, int n) {
+  Nodo *nuevoNodo = new Nodo();
+  nuevoNodo->dato = n;
+  nuevoNodo->siguiente = NULL;
 
-    fin = nuevoNodo;
+  if (ColaVacia(frente)) {
+    frente = nuevoNodo;
+  } else {
+    fin->siguiente = nuevoNodo;
+  }
 
-    cout << "Elemento "<< n << " insertado en la cola." << endl;
+  fin = nuevoNodo;
+
+  cout << "Elemento " << n << " insertado en la cola." << endl;
 }
 
-void Dequeue(Nodo *&frente, Nodo *&fin, int &n)
-{
-    n = frente -> dato;
-    Nodo *aux = frente;
+void Dequeue(Nodo *&frente, Nodo *&fin, int &n) {
+  n = frente->dato;
+  Nodo *aux = frente;
 
-    if(frente == fin)
-    {
-        frente = NULL;
-        fin = NULL;
-    }
-    else
-    {
-        frente = frente ->siguiente;
-    }
-    delete aux;
+  if (frente == fin) {
+    frente = NULL;
+    fin = NULL;
+  } else {
+    frente = frente->siguiente;
+  }
+  delete aux;
+  cout << "Elemento " << n << " eliminado de la cola." << endl;
 }
 
-void menu()
-{
-    int opc;
-    
-    int dato;
+void menu() {
+  int opc;
+  int dato;
 
-    Nodo *frente = NULL;
-    Nodo *fin = NULL;
+  Nodo *frente = NULL;
+  Nodo *fin = NULL;
 
-    do{
-        cout << "\t.:MENU:.\n";
-        cout << "1. Insertar un elemento a la cola" << endl;
-        cout << "2. Quitar un elemento de la cola" << endl;
-        cout << "3. Mostrar todos los elementos de la cola" << endl;
-        cout << "4. Quitar todos los elementos de la cola" << endl;
-        cout << "5. Salir" << endl;
-        cout << "Opcion: " << endl;
-        cin >> opc;
+  do {
+    cout << "\n\t.:MENU:.\n";
+    cout << "1. Insertar un elemento a la cola" << endl;
+    cout << "2. Quitar un elemento de la cola" << endl;
+    cout << "3. Mostrar todos los elementos de la cola" << endl;
+    cout << "4. Quitar todos los elementos de la cola" << endl;
+    cout << "5. Salir" << endl;
+    cout << "Opcion: " << endl;
+    cin >> opc;
 
-        switch(opc)
-        {
-            case 1: 
-                cout << "Digite un numero: ";
-                // TODO - VALIDACION DE DATO
+    if (cin.fail()) {
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+      cout << "\nOpción no válida. Por favor, ingrese un numero entre 1 y 4 "
+              "para elegir sus respectivas opciones."
+           << endl;
+      continue;
+    }
 
-                cin >> dato;
+    switch (opc) {
+        case 1:
+            cout << "Digite un numero: ";
+            cin >> dato;
 
+            if (cin.fail()) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "\nOpción no válida. Por favor, ingrese un número entero." << endl;
+                continue;
+            }
 
-                Enqueue(frente, fin, dato);
-                break;
-            
-            case 2: 
-                Dequeue(frente, fin, dato);
-                break;
+            // Si la entrada no es valida el menu se repite infinitamente (Otazu)
+            Enqueue(frente, fin, dato);
+            break;
 
-            case 3:
-                // TODO - FUNCION PARA SOLO MOSTRAR LOS DATOS SIN ELIMINARLOS
-                break;
+        case 2:
+            Dequeue(frente, fin, dato);
+            system("pause");
+            break;
 
-            case 4: 
-                cout << "Quitando los nodos de la cola: ";
+        case 3:
+            MostrarCola(frente);
+            break;
 
-                // TODO - INFORMAR QUE LA COLA ESTA VACIA
-
-                while(frente != NULL)
-                {
-                    Dequeue(frente, fin, dato);
-                    if(frente != NULL)
-                    {
-                        cout << dato << " , ";
-                    }
-                    else
-                    {
-                        cout << dato << ".";
-                        // TODO - INFORMAR QUE LA COLA ESTA VACIA
-                    }
-                }
+        case 4:
+            // INFORMAR QUE LA COLA ESTA VACIA
+            if (frente == NULL) {
+                cout << "La cola está vacía" << endl;
                 system("pause");
                 break;
+            }
 
-            case 5: break;
-        }
-        system("cls");
-    }while(opc != 5);
+            cout << "\nQuitando los nodos de la cola: \n";
+
+            while (frente != NULL) {
+
+                Dequeue(frente, fin, dato);
+
+                if (frente == NULL) 
+                {
+                    // INFORMAR QUE LA COLA ESTA VACIA
+                    cout << "La cola está vacía" << endl;
+                } 
+            }
+
+            system("pause");
+            break;
+
+        case 5:
+            break;
+    }
+
+    system("cls");
+  } while (opc != 5);
 }
 
-int main()
-{
-    menu();
+int main() {
+  setlocale(LC_ALL, "");
+  menu();
 
-    return 0;
+  return 0;
 }

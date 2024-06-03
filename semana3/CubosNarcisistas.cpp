@@ -10,9 +10,11 @@ using namespace std;
 
 int main()
 {
-    for (int i = 100; i < 1000; i++)
+    int min = 100, max = 1000;
+    for (int i = min; i < max; i++)
     {
         int numero = i;
+
 
         int digito3 = numero % 10;
         numero /= 10;
@@ -27,7 +29,6 @@ int main()
             cout << "El numero: " << i << " es un cubo narcisista."  << endl;
         }
     }
-    
 
     return 0;
 }

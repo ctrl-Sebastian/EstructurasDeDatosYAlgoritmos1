@@ -1,0 +1,16 @@
+peso si el SO es de 16 bits.
+struct NODE {
+char t;
+bool k;
+int dato;
+NODE *proximo;
+
+};
+
+
+bool 1 byte
+int 4 bytes
+char  1 byte
+NODE *proximo es 2 byte ya que los 16 bits del SO en bytes son 2.
+
+peso: 8 bytes.

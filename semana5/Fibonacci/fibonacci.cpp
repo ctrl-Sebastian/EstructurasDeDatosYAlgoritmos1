@@ -11,13 +11,25 @@ using namespace std;
 
 int Fibonacci(int n)
 {
-    if(n == 0 || n == 1) return 1;
-    return Fibonacci(n-1)+Fibonacci(n-2);
+    int anterior = 0, actual = 1, suma; 
+    if( n == 0) 
+        return anterior; 
+    for(int i = 2; i <= n; i++) 
+    { 
+       suma = anterior + actual; 
+       anterior = actual; 
+       actual = suma; 
+    } 
+    return actual; 
 }
 
 int main()
 {
-    cout << Fibonacci(10);
+    for (int i = 0; i < 200; i++)
+    {
+        cout << i << " - " << Fibonacci(i) << endl;
+    }
+    
 
     return 0;
 }

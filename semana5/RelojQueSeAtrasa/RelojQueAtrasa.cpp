@@ -2,10 +2,18 @@
 using namespace std;
 
 const int horas = 24;
-float Fibonacci(int n)
+int Fibonacci(int n)
 {
-    if(n == 0 || n == 1) return 1;
-    return Fibonacci(n-1)+Fibonacci(n-2);
+    int anterior = 0, actual = 1, suma = 0; 
+    if( n == 0) 
+        return anterior; 
+    for(int i = 2; i <= n; i++) 
+    { 
+       suma = anterior + actual; 
+       anterior = actual; 
+       actual = suma; 
+    } 
+    return actual; 
 }
 
 float DosElevadoA(int n)
@@ -22,10 +30,12 @@ int main()
 {
     float tiempo = 0;
 
-    
-    for (int i = 1; i <= horas; i++)
+    int j =1;
+    for (int i = 0; i < horas; i++)
     {
+        cout << Fibonacci(i) << "/" << DosElevadoA(j) << endl;
         tiempo += ((Fibonacci(i))/(DosElevadoA(i)))*60;
+        j++;
     }
     
 

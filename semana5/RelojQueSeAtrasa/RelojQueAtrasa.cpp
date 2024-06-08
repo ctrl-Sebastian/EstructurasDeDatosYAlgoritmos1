@@ -4,16 +4,16 @@ using namespace std;
 const int horas = 24;
 int Fibonacci(int n)
 {
-    int anterior = 0, actual = 1, suma = 0; 
+    int anterior = 0, siguiente = 1, suma = 0; 
     if( n == 0) 
         return anterior; 
     for(int i = 2; i <= n; i++) 
     { 
-       suma = anterior + actual; 
-       anterior = actual; 
-       actual = suma; 
+       suma = anterior + siguiente; 
+       anterior = siguiente; 
+       siguiente = suma; 
     } 
-    return actual; 
+    return siguiente; 
 }
 
 float DosElevadoA(int n)

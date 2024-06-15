@@ -16,23 +16,18 @@ int main()
         counter = 0;
         while (num != 4)
         {
-            if(num % 2 ==0)
-            {
-                num /= 2;
-                counter++;
-            }
-            else
-            {
-                num = (num*3)+1;
-                counter++;
-            }
+           (num % 2 ==0) ? num /= 2 : num = (num*3)+1;
+           counter++;
         }
         if(counter > cadenaMasLarga){
             cadenaMasLarga = counter;
             invitadoConCadenaMasLarga = i;
         }
     }
-    cout << "El invitado con la cadena mas larga es el invitado #" << invitadoConCadenaMasLarga << " con una cadena de tamaño: " << cadenaMasLarga;
+    cout << "El invitado con la cadena mas larga es el invitado #" 
+            << invitadoConCadenaMasLarga 
+            << " con una cadena de tamaño: " 
+            << cadenaMasLarga;
     
     return 0;
 }

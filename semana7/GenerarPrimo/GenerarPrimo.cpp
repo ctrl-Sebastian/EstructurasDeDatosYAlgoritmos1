@@ -12,7 +12,7 @@ bool esPrimo(int n) {
 
 int main()
 {
-    int number = 500;
+    int number = 10000000;
     while(number--)
     {
         if(esPrimo(number))

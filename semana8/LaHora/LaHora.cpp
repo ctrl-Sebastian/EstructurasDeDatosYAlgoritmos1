@@ -3,14 +3,14 @@ using namespace std;
 
 int main()
 {
-    for (int i = 0; i < 1300; i++)
+    for (int i = 0000; i < 2500; i++)
     {
         int num = i;
         int digitosMinutos = num%100;
         num/=100;
         int digitosHora = num%100;
 
-        if(((digitosHora*digitosHora)+(digitosMinutos*digitosMinutos)) == num)
+        if(((digitosHora*digitosHora)+(digitosMinutos*digitosMinutos)) == i)
         {
             if(digitosHora < 10 && digitosMinutos <10)
             {
@@ -26,12 +26,12 @@ int main()
                 cout << "Eran las: " << digitosHora << ":" << "0"<<digitosMinutos << endl;
             }
             else{
-                cout << "Eran las: " << digitosHora << ":" << digitosMinutos;
+                cout << "Eran las: " << digitosHora << ":" << digitosMinutos << endl;
 
             }
         }
 
-        //cout << i << " -> " << "Hora: " << digitosHora << " Minutos: " << digitosMinutos << endl;
+        //cout << i << " -> " << "Hora: " << digitosHora << " Minutos: " << digitosMinutos << "->" << ((digitosHora*digitosHora)+(digitosMinutos*digitosMinutos)) <<endl;
     }
     
 

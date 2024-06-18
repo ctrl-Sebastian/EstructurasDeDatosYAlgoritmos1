@@ -2,10 +2,7 @@
 using namespace std;
 
 int MultiplicarDigitos(int n, int counter){
-    int producto;
-    int digito1 = n%10;
-    int digito2 = n/=10;
-    producto = digito1 * digito2;
+    int producto = (n%10) * (n/=10);
     if(producto > 9) {
         counter++;
     }

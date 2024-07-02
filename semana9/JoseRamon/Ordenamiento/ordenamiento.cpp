@@ -77,10 +77,26 @@ void Mostrar(int arr[], int n)
 int main()
 {
     int opcion;
+    
+    int arr[tamanoArr];
+    for (int i = 0; i < tamanoArr; i++)
+    {
+        cout << "Ingrese elemento " << i << ": ";
+        cin >> arr[i];
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "\nOpción no válida. Por favor, ingrese un numero entre 1 y 4 "
+                    "para elegir sus respectivas opciones."
+                << endl;
+            continue;
+        }
+    }
+  
     do
     {
-        int arr[tamanoArr] = {5, 4, 9, 20, 45, 65, 78, 12, 2, 7, 87, 24, 32, 16, 69, 951, 753, 654, 258, 246};
 
+        
         cout << "\n\t.:MENU:.\n";
         cout << "1. Bubble Sort" << endl;
         cout << "2. Quick Sort" << endl;

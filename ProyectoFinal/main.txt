@@ -21,7 +21,7 @@ string cleanWord(const string &word) {
 
 class hashtable{
   private:
-    static const int tableSize = 10000;
+    static const int tableSize = 1000;
 
     struct item{
       string palabra;
@@ -30,19 +30,17 @@ class hashtable{
     };
 
     item* HashTable[tableSize];
-  
   public:
     hashtable()
     {
-        for(int i = 0; i < tableSize; i++)
+    for(int i = 0; i < tableSize; i++)
         {
-            HashTable[i] = new item;
-            HashTable[i]->palabra = "";
-            HashTable[i]->frecuencia = 0;
-            HashTable[i]->siguiente = NULL;
+        HashTable[i] = new item;
+        HashTable[i]->palabra = "";
+        HashTable[i]->frecuencia = 0;
+        HashTable[i]->siguiente = NULL;
         }
     }
-    
     int Hash(string key)
     {
     int hash = 0;
@@ -56,7 +54,6 @@ class hashtable{
     index = hash % tableSize;
     return index;
     }
-    
     void AddItem(string palabra)
     {
     int index = Hash(palabra);
@@ -90,7 +87,6 @@ class hashtable{
         Ptr->siguiente = n;
     }
     }
-    
     int NumeroDeItemsEnIndice(int index)
     {
     int count = 0;
@@ -109,7 +105,6 @@ class hashtable{
     }
     return count;
     }
-    
     void ImprimirTabla()
     {
     int num;
@@ -133,7 +128,6 @@ class hashtable{
         }
     }
     }
-    
     void ImprimirItemsEnIndice(int index)
     {
     item* Ptr = HashTable[index];

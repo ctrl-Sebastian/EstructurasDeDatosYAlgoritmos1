@@ -21,8 +21,6 @@ string cleanWord(const string& word)
     return clean;
 }
 
-
-
 class hashtable 
 {
 private:
@@ -118,6 +116,86 @@ public:
         return count;
     }
 
+    void Cuentafrecuencia() 
+    {
+        // Arrays para almacenar las frecuencias, palabras y sus índices
+        int frecuencias[tableSize];
+        string palabras[tableSize];
+        int indices[tableSize];
+        int count = 0;
+
+        for (int index = 0; index < tableSize; index++) 
+        {
+            item* Ptr = HashTable[index];
+            while (Ptr != NULL && Ptr->palabra != "")
+            {
+                frecuencias[count] = Ptr->frecuencia;
+                palabras[count] = Ptr->palabra;
+                indices[count] = index; 
+                count++;
+                Ptr = Ptr->siguiente;
+            }
+        }
+
+        // Arrays para almacenar las 10 mayores frecuencias, palabras y sus índices
+        int topFrecuencias[10];
+        string topPalabras[10];
+        int topIndices[10];
+
+        // Inicializamos los arrays con las primeras 10 frecuencias encontradas
+        for (int i = 0; i < 10; i++) 
+        {
+            if (i < count) {
+                topFrecuencias[i] = frecuencias[i];
+                topPalabras[i] = palabras[i];
+                topIndices[i] = indices[i];
+            }
+            else 
+            {
+                topFrecuencias[i] = 0; 
+                topPalabras[i] = "";
+                topIndices[i] = -1;
+            }
+        }
+
+        // Actualizamos las 10 mayores frecuencias, palabras y sus índices si encontramos mayores
+        for (int i = 10; i < count; i++) 
+        {
+            int currentFreq = frecuencias[i];
+            string currentWord = palabras[i];
+            int currentIndex = indices[i];
+
+            // Buscamos la posición en topFrecuencias donde el currentFreq debería ir
+            for (int j = 0; j < 10; j++)
+            {
+                if (currentFreq > topFrecuencias[j]) 
+                {
+                    // Desplazamos las frecuencias menores hacia la derecha
+                    for (int k = 9; k > j; k--) 
+                    {
+                        topFrecuencias[k] = topFrecuencias[k - 1];
+                        topPalabras[k] = topPalabras[k - 1];
+                        topIndices[k] = topIndices[k - 1];
+                    }
+                    topFrecuencias[j] = currentFreq;
+                    topPalabras[j] = currentWord;
+                    topIndices[j] = currentIndex;
+                    break;
+                }
+            }
+        }
+
+        // Imprimir las 10 mayores frecuencias, palabras y sus índices
+        cout << "Las 10 palabras con mayor frecuencia son:" << endl;
+        for (int i = 0; i < 10; i++) 
+        {
+            if (topFrecuencias[i] > 0) 
+            { 
+                cout << "Índice: " << topIndices[i] << ", Palabra: " << topPalabras[i] << ", Frecuencia: " << topFrecuencias[i] << endl;
+            }
+        }
+    }
+
     void ImprimirTabla() 
     {
         for (int i = 0; i < tableSize; i++) 
@@ -128,6 +206,7 @@ public:
                 ImprimirItemsEnIndice(i);
             }
         }
+        //Cuentafrecuencia();  // Llamar a Cuentafrecuencia para imprimir las 10 palabras más frecuentes
     }
 
     void ImprimirItemsEnIndice(int index) 
@@ -155,25 +234,16 @@ public:
             }
         }
     }
-    
-    int Partition(item* palabras[], int low, int high) {
-        int pivot = palabras[high]->frecuencia;
-        int i = low - 1;
-        for (int j = low; j < high; j++) {
-            if (palabras[j]->frecuencia > pivot) {
-                i++;
-                swap(palabras[i], palabras[j]);
-            }
-        }
-        swap(palabras[i + 1], palabras[high]);
-        return i + 1;
-    }
 
-    void QuickSort(item* palabras[], int low, int high) {
-        if (low < high) {
-            int pi = Partition(palabras, low, high);
-            QuickSort(palabras, low, pi - 1);
-            QuickSort(palabras, pi + 1, high);
+    void SortArray(item* palabras[], int count) {
+        for (int i = 0; i < count - 1; i++) {
+            for (int j = 0; j < count - i - 1; j++) {
+                if (palabras[j]->frecuencia < palabras[j + 1]->frecuencia) {
+                    item* temp = palabras[j];
+                    palabras[j] = palabras[j + 1];
+                    palabras[j + 1] = temp;
+                }
+            }
         }
     }
 
@@ -181,7 +251,7 @@ public:
         item* palabras[tableSize];
         int count;
         FillArray(palabras, count);
-        QuickSort(palabras, 0, count-1);
+        SortArray(palabras, count);
 
         cout << "Las 10 palabras con mayor frecuencia son:" << endl;
         for (int i = 0; i < 10 && i < count; i++) {
@@ -189,8 +259,6 @@ public:
         }
     }
 };
-
-
 
 int main() 
 {

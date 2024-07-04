@@ -229,7 +229,7 @@ int main()
     hashtable TablaHash;
 
     // Abrir el archivo de entrada llamado "input.txt"
-    ifstream inputFile("palabras.txt");
+    ifstream inputFile("input.txt");
 
     // Verificar si el archivo se abrió correctamente
     if (!inputFile.is_open()) 

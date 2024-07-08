@@ -4,32 +4,49 @@
 #include <string>
 #include <algorithm>  // Para transform
 #include <cctype>     // Para tolower y ispunct
+#include <Windows.h>
+#include <ShlObj.h>   // Para SHBrowseForFolder
+#include <iomanip>    // Para usar setw
+#include <filesystem> // Para listar archivos
 
 using namespace std;
+namespace fs = std::filesystem;
 
 // Función para limpiar una palabra, convirtiéndola a minúsculas y eliminando símbolos
-string cleanWord(const string& word) 
-{
+string cleanWord(const string& word) {
     string clean;
-    for (char ch : word) 
-    {
-        if (!ispunct(ch)) 
-        {
+    for (char ch : word) {
+        if (!ispunct(ch)) {
             clean += tolower(ch);
         }
     }
     return clean;
 }
 
+// Función para abrir el cuadro de diálogo de selección de carpetas
+string openFolderDialog() {
+    BROWSEINFO bi;
+    ZeroMemory(&bi, sizeof(bi));
+    TCHAR path[MAX_PATH];
 
+    bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_NEWDIALOGSTYLE;
+    bi.lpfn = NULL;
+    bi.lpszTitle = "Seleccione una carpeta";
+    bi.pszDisplayName = path;
 
-class hashtable 
-{
+    LPITEMIDLIST pidl = SHBrowseForFolder(&bi);
+    if (pidl != NULL) {
+        SHGetPathFromIDList(pidl, path);
+        return string(path);
+    }
+    return "";
+}
+
+class hashtable {
 private:
-    static const int tableSize = 1000;
+    static const int tableSize = 5000;
 
-    struct item 
-    {
+    struct item {
         string palabra;
         int frecuencia;
         item* siguiente;
@@ -39,8 +56,7 @@ private:
 
 public:
     hashtable() {
-        for (int i = 0; i < tableSize; i++) 
-        {
+        for (int i = 0; i < tableSize; i++) {
             HashTable[i] = new item;
             HashTable[i]->palabra = "";
             HashTable[i]->frecuencia = 0;
@@ -48,13 +64,11 @@ public:
         }
     }
 
-    int Hash(string key) 
-    {
+    int Hash(string key) {
         int hash = 0;
         int index;
 
-        for (int i = 0; i < key.length(); i++) 
-        {
+        for (int i = 0; i < key.length(); i++) {
             hash = (hash + (int)key[i]);
         }
 
@@ -62,86 +76,31 @@ public:
         return index;
     }
 
-    void AddItem(string palabra) 
-    {
+    void AddItem(string palabra) {
         int index = Hash(palabra);
-        if (HashTable[index]->palabra == "") 
-        {
+        if (HashTable[index]->palabra == "") {
             HashTable[index]->palabra = palabra;
             HashTable[index]->frecuencia++;
-        }
-        else if (HashTable[index]->palabra == palabra) 
-        {
+        } else if (HashTable[index]->palabra == palabra) {
             HashTable[index]->frecuencia++;
-        }
-        else {
+        } else {
             item* Ptr = HashTable[index];
-            while (Ptr->siguiente != NULL) 
-            {
-                if (Ptr->palabra == palabra) 
-                {
+            while (Ptr->siguiente != NULL) {
+                if (Ptr->palabra == palabra) {
                     Ptr->frecuencia++;
                     return;
                 }
                 Ptr = Ptr->siguiente;
             }
-            if (Ptr->palabra == palabra) 
-            {
+            if (Ptr->palabra == palabra) {
                 Ptr->frecuencia++;
                 return;
             }
-            item* n = new item;
-            n->palabra = palabra;
-            n->frecuencia = 1;
-            n->siguiente = NULL;
-            Ptr->siguiente = n;
-        }
-    }
-
-    int NumeroDeItemsEnIndice(int index) 
-    {
-        int count = 0;
-        if (HashTable[index]->palabra == "") 
-        {
-            return count;
-        }
-        else 
-        {
-            count++;
-            item* Ptr = HashTable[index];
-            while (Ptr->siguiente != NULL) 
-            {
-                count++;
-                Ptr = Ptr->siguiente;
-            }
-        }
-        return count;
-    }
-
-    void ImprimirTabla() 
-    {
-        for (int i = 0; i < tableSize; i++) 
-        {
-            int num = NumeroDeItemsEnIndice(i);
-            if (num != 0) 
-            {
-                ImprimirItemsEnIndice(i);
-            }
-        }
-    }
-
-    void ImprimirItemsEnIndice(int index) 
-    {
-        item* Ptr = HashTable[index];
-
-        cout << "\n\n\n\nIndice = " << index << endl;
-        while (Ptr != NULL) 
-        {
-            cout << "---------------------" << endl;
-            cout << "palabra: " << Ptr->palabra << endl;
-            cout << "frecuencia: " << Ptr->frecuencia << endl;
-            cout << "---------------------\n";
-            Ptr = Ptr->siguiente;
+            item* nuevoItem = new item;
+            nuevoItem->palabra = palabra;
+            nuevoItem->frecuencia = 1;
+            nuevoItem->siguiente = NULL;
+            Ptr->siguiente = nuevoItem;
         }
     }
 
@@ -155,7 +114,7 @@ public:
             }
         }
     }
-    
+
     int Partition(item* palabras[], int low, int high) {
         int pivot = palabras[high]->frecuencia;
         int i = low - 1;
@@ -181,54 +140,66 @@ public:
         item* palabras[tableSize];
         int count;
         FillArray(palabras, count);
-        QuickSort(palabras, 0, count-1);
+        QuickSort(palabras, 0, count - 1);
+
+        const int palabraWidth = 20;  // Ancho de la columna para palabras
+        const int frecuenciaWidth = 10;  // Ancho de la columna para frecuencias
 
         cout << "Las 10 palabras con mayor frecuencia son:" << endl;
+        cout << "-----------------------------------------" << endl;
+        cout << "| " << setw(palabraWidth) << left << "Palabra"
+             << " | " << setw(frecuenciaWidth) << right << "Frecuencia" << " |" << endl;
+        cout << "-----------------------------------------" << endl;
+
         for (int i = 0; i < 10 && i < count; i++) {
-            cout << "Palabra: " << palabras[i]->palabra << ", Frecuencia: " << palabras[i]->frecuencia << endl;
+            cout << "| " << setw(palabraWidth) << left << palabras[i]->palabra
+                 << " | " << setw(frecuenciaWidth) << right << palabras[i]->frecuencia << " |" << endl;
         }
+        cout << "-----------------------------------------" << endl;
     }
 };
 
+void procesarArchivosEnCarpeta(const string& carpeta, hashtable& TablaHash) {
+    for (const auto& entry : fs::directory_iterator(carpeta)) {
+        if (entry.is_regular_file() && entry.path().extension() == ".txt") {
+            ifstream inputFile(entry.path().string());
 
+            // Verificar si el archivo se abrió correctamente
+            if (!inputFile.is_open()) {
+                cerr << "No se pudo abrir el archivo: " << entry.path().string() << endl;
+                continue;
+            }
 
-int main() 
-{
+            string line;
+            while (getline(inputFile, line)) {
+                stringstream ss(line);
+                string word;
+                while (ss >> word) {
+                    string clean = cleanWord(word);
+                    if (!clean.empty()) {
+                        TablaHash.AddItem(clean);
+                    }
+                }
+            }
+
+            inputFile.close();
+        }
+    }
+}
+
+int main() {
     hashtable TablaHash;
 
-    // Abrir el archivo de entrada llamado "input.txt"
-    ifstream inputFile("palabras.txt");
-
-    // Verificar si el archivo se abrió correctamente
-    if (!inputFile.is_open()) 
-    {
-        cerr << "Error al abrir el archivo!" << endl;
+    string carpetaPath = openFolderDialog();
+    if (carpetaPath.empty()) {
+        cerr << "No se seleccionó ninguna carpeta." << endl;
+        system("pause");
         return 1;
     }
 
-    string line; // Declarar una variable de tipo string para almacenar cada línea del archivo
-
-    // Leer cada línea del archivo
-    cout << "Contenido del archivo: " << endl;
-    while (getline(inputFile, line)) 
-    {
-        stringstream ss(line); // Crear un stringstream a partir de la línea
-        string word;
-        // Leer cada palabra del stringstream y limpiarla
-        while (ss >> word) 
-        {
-            string clean = cleanWord(word); // Limpiar la palabra
-            if (!clean.empty()) 
-            {
-                TablaHash.AddItem(clean);
-            }
-        }
-    }
-
-    // Cerrar el archivo
-    inputFile.close();
-
+    procesarArchivosEnCarpeta(carpetaPath, TablaHash);
     TablaHash.ImprimirTopFrecuencias();
+    system("pause");
 
     return 0;
 }

@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/sebas/OneDrive/Escritorio/intec/EstructurasDeDatosYAlgoritmos1/semana9/JoseRamon/Ordenamiento",
-      "program": "c:/Users/sebas/OneDrive/Escritorio/intec/EstructurasDeDatosYAlgoritmos1/semana9/JoseRamon/Ordenamiento/build/Debug/outDebug",
+      "cwd": "c:/Users/sebas/OneDrive/Escritorio/intec/EstructurasDeDatosYAlgoritmos1/openfile",
+      "program": "c:/Users/sebas/OneDrive/Escritorio/intec/EstructurasDeDatosYAlgoritmos1/openfile/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

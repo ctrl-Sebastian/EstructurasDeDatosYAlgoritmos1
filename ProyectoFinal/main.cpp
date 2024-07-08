@@ -162,6 +162,7 @@ public:
 void procesarArchivosEnCarpeta(const string& carpeta, hashtable& TablaHash) {
     for (const auto& entry : fs::directory_iterator(carpeta)) {
         if (entry.is_regular_file() && entry.path().extension() == ".txt") {
+
             ifstream inputFile(entry.path().string());
 
             // Verificar si el archivo se abrió correctamente
@@ -198,6 +199,8 @@ int main() {
     }
 
     procesarArchivosEnCarpeta(carpetaPath, TablaHash);
+
+    
     TablaHash.ImprimirTopFrecuencias();
     system("pause");
 

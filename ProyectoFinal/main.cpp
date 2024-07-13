@@ -171,6 +171,8 @@ void procesarArchivosEnCarpeta(const string& carpeta, hashtable& TablaHash) {
                 continue;
             }
 
+            cout << entry.path().filename() << endl; 
+
             string line;
             while (getline(inputFile, line)) {
                 stringstream ss(line);
